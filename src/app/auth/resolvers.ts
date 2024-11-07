@@ -70,6 +70,20 @@ const mutations = {
             throw new Error(error?.message || "Failed to authenticate with Google.");
         }
     },
+
+    logout: async (parent: any, args: any, ctx: GraphqlContext) => {
+        try {
+            ctx.res.clearCookie("__mellowMoments_token", {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: 'strict'
+            });
+
+            return true;
+        } catch (error) {
+            throw new Error("Logout failed. Please try again.");
+        }
+    },
 };
 
 export const resolvers = { mutations };
