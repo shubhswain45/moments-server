@@ -29,7 +29,7 @@ export async function initServer() {
             ${Auth.types}
 
             type Query {
-                sayHello: String
+                ${Auth.queries}
             }
 
             type Mutation {
@@ -38,7 +38,7 @@ export async function initServer() {
         `,
         resolvers: {
             Query: {
-                sayHello: () => "Hello"
+                ...Auth.resolvers.queries
             },
             Mutation: {
                 ...Auth.resolvers.mutations
@@ -48,29 +48,29 @@ export async function initServer() {
 
     await graphqlServer.start();
 
-    
+
     // Middleware for handling GraphQL requests
     app.use("/graphql", expressMiddleware(graphqlServer, {
         context: async ({ req, res }: { req: Request, res: Response }) => {
             let token;
-    
+
             // First, check if the token is in the Authorization header
             if (req.headers.authorization) {
                 // Extract the token from the Authorization header
                 token = req.headers.authorization.split("Bearer ")[1];
             }
-    
+
             // If the token isn't in the Authorization header, check if it's in cookies
             if (!token && req.cookies["__Moments_token"]) {
                 token = req.cookies["__Moments_token"];
             }
-    
+
             // Decode the token if available
             let user;
             if (token) {
                 user = JWTService.decodeToken(token);
             }
-    
+
             // Return the context with the decoded user
             return {
                 user,

@@ -23,6 +23,20 @@ interface GoogleJwtPayload {
     typ: string;
 }
 
+const queries = {
+    getCurrentUser: async (parent: any, args: any, ctx: GraphqlContext) => {
+        try {
+            const id = ctx.user?.id;
+            if (!id) return null;
+
+            const user = await prismaClient.user.findUnique({ where: { id } });
+            return user;
+        } catch (error) {
+            return null;
+        }
+    }
+};
+
 const mutations = {
     loginWithGoogle: async (parent: any, { token }: { token: string }, ctx: GraphqlContext) => {
         try {
@@ -86,4 +100,4 @@ const mutations = {
     },
 };
 
-export const resolvers = { mutations };
+export const resolvers = { queries, mutations };
