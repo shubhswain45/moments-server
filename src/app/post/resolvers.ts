@@ -8,6 +8,23 @@ interface CreatePostPayload {
     imgURL: string
 }
 
+const queries = {
+    getFeedPosts: async (parent: any, args: any, ctx: GraphqlContext) => {
+        // Ensure the user is authenticated
+        console.log("ctx.user", ctx.user);
+
+        if (!ctx.user?.id) {
+            return []
+        }
+
+        // Fetch the first 5 posts from the database
+        const posts = await prismaClient.post.findMany({
+            take: 5,  // Limit to 5 posts
+        })
+
+        return posts
+    }
+}
 
 const mutations = {
     createPost: async (
@@ -53,4 +70,4 @@ const extraResolvers = {
     }
 }
 
-export const resolvers = { mutations, extraResolvers }
+export const resolvers = { queries, mutations, extraResolvers }

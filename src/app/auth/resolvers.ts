@@ -2,6 +2,9 @@ import { prismaClient } from "../../clients/db";
 import { GraphqlContext } from "../../interfaces";
 import axios from 'axios';
 import JWTService from "../services/JWTService";
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 interface GoogleJwtPayload {
     iss: string;
@@ -72,7 +75,7 @@ const mutations = {
 
             const userToken = JWTService.generateTokenForUser(user);
 
-            ctx.res.cookie("__mellowMoments_token", userToken, {
+            ctx.res.cookie("__Moments_token", userToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
                 sameSite: 'strict',
@@ -87,7 +90,7 @@ const mutations = {
 
     logout: async (parent: any, args: any, ctx: GraphqlContext) => {
         try {
-            ctx.res.clearCookie("__mellowMoments_token", {
+            ctx.res.clearCookie("__Moments_token", {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
                 sameSite: 'strict'

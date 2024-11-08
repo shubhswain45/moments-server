@@ -6,6 +6,8 @@ import cors from 'cors';
 import JWTService from './services/JWTService';
 import cookieParser from 'cookie-parser';
 import { Auth } from './auth';
+import { Post } from './post';
+import dotenv from 'dotenv'
 
 export async function initServer() {
     const app = express();
@@ -24,27 +26,36 @@ export async function initServer() {
 
     app.use(cookieParser())
 
+    dotenv.config()
+
     const graphqlServer = new ApolloServer({
         typeDefs: `
             ${Auth.types}
-
+            ${Post.types}
+    
             type Query {
                 ${Auth.queries}
+                ${Post.queries}
             }
-
+    
             type Mutation {
                 ${Auth.mutations}
+                ${Post.mutations}
             }
         `,
         resolvers: {
             Query: {
-                ...Auth.resolvers.queries
+                ...Auth.resolvers.queries,
+                ...Post.resolvers.queries
             },
             Mutation: {
-                ...Auth.resolvers.mutations
-            }
+                ...Auth.resolvers.mutations,
+                ...Post.resolvers.mutations,
+            },
+            ...Post.resolvers.extraResolvers
         },
     });
+    
 
     await graphqlServer.start();
 
