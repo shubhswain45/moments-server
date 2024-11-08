@@ -79,8 +79,10 @@ const mutations = {
                 httpOnly: true,
                 secure: false,
                 sameSite: 'strict',
-                maxAge: 24 * 60 * 60 * 1000 // 1 day
+                maxAge: 24 * 60 * 60 * 1000, // 1 day
+                path: '/', // Ensure the cookie is available across all paths
             });
+            
 
             return user;
         } catch (error: any) {
