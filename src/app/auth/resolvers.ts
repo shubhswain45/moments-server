@@ -80,9 +80,10 @@ const mutations = {
                 secure: false, // Ensures it's only sent over HTTPS
                 sameSite: 'none', // Allows cross-origin requests
                 maxAge: 24 * 60 * 60 * 1000, // 1 day
-                path: '/', // Ensures cookie is available on all routes
-                domain: 'moments-client.vercel.app' // Set this to the domain of the client
+                path: '/' // Ensures cookie is available on all routes
+                // Omitting the `domain` property to allow for flexibility across subdomains
             });
+            
             
             
 
