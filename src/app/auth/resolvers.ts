@@ -77,11 +77,13 @@ const mutations = {
 
             ctx.res.cookie("__Moments_token", userToken, {
                 httpOnly: true,
-                secure: false,
-                sameSite: 'none',
+                secure: true, // Ensures it's only sent over HTTPS
+                sameSite: 'none', // Allows cross-origin requests
                 maxAge: 24 * 60 * 60 * 1000, // 1 day
-                path: '/', // Ensure the cookie is available across all paths
+                path: '/', // Ensures cookie is available on all routes
+                domain: 'moments-client.vercel.app' // Set this to the domain of the client
             });
+            
             
 
             return user;
