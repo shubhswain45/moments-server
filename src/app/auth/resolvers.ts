@@ -74,15 +74,14 @@ const mutations = {
             }
 
             const userToken = JWTService.generateTokenForUser(user);
-
             ctx.res.cookie("__Moments_token", userToken, {
                 httpOnly: true,
-                secure: true, // Ensures it's only sent over HTTPS
-                sameSite: 'lax', // Allows cross-origin requests
-                maxAge: 24 * 60 * 60 * 1000, // 1 day
-                path: '/' // Ensures cookie is available on all routes
-                // Omitting the `domain` property to allow for flexibility across subdomains
+                secure: true,
+                sameSite: 'none',
+                expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Alternative to maxAge, 1 day
+                path: '/'
             });
+            
             
             
             
