@@ -78,6 +78,7 @@ const mutations = {
             ctx.res.cookie("__Moments_token", userToken, {
                 httpOnly: true,
                 secure: false,
+                sameSite: 'none',
                 maxAge: 24 * 60 * 60 * 1000, // 1 day
                 path: '/', // Ensure the cookie is available across all paths
             });
