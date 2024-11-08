@@ -77,7 +77,7 @@ const mutations = {
 
             ctx.res.cookie("__Moments_token", userToken, {
                 httpOnly: true,
-                secure: false, // Ensures it's only sent over HTTPS
+                secure: true, // Ensures it's only sent over HTTPS
                 sameSite: 'lax', // Allows cross-origin requests
                 maxAge: 24 * 60 * 60 * 1000, // 1 day
                 path: '/' // Ensures cookie is available on all routes
