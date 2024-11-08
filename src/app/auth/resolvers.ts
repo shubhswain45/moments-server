@@ -75,12 +75,14 @@ const mutations = {
 
             const userToken = JWTService.generateTokenForUser(user);
             ctx.res.cookie("__Moments_token", userToken, {
-                httpOnly: true,
-                secure: true,
-                sameSite: 'none',
-                expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Alternative to maxAge, 1 day
-                path: '/'
+                httpOnly: true,           // Prevents JavaScript from accessing the cookie
+                secure: true,             // Ensures cookie is only sent over HTTPS
+                sameSite: 'none',         // Allows cross-origin requests
+                maxAge: 24 * 60 * 60 * 1000, // 1 day
+                path: '/',                // Ensures cookie is available on all routes
+                domain: 'moments-client.vercel.app' // Client domain
             });
+            
             
             
             
